@@ -35,6 +35,10 @@ module Rspec
         @metadata[:full_description]
       end
 
+      def subject_modifier
+        @metadata[:subject_modifier]
+      end
+
       def to_s
         inspect
       end
