@@ -2,7 +2,7 @@ module Rspec
   module Core
     class Example
 
-      attr_reader :metadata, :example_block
+      attr_reader :metadata, :example_block, :state
 
       def example_group
         @example_group_class
@@ -95,7 +95,9 @@ module Rspec
         exception_encountered = nil
 
         begin
+          @state = :before
           run_before_each
+          @state = :block
           if @example_group_class.around_eachs.empty?
             @example_group_instance.instance_eval(&example_block) if runnable?
           else
@@ -105,6 +107,7 @@ module Rspec
           exception_encountered = e
           all_systems_nominal = false
         end
+        @state = :after
 
         assign_auto_description
 
